@@ -15,4 +15,13 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    
+    #- name: Build with dotnet
+      #run:  dotnet build "Consulta RUC .NET\ZP.ConsultaRUC.API\ZP.ConsultaRUC.API.csproj"  --configuration Release
+    - name: Build with dotnet
+      run:  dotnet build
+    #- name: Install dependencies
+      #run: dotnet restore "Consulta RUC .NET\ZP.ConsultaRUC.API\ZP.ConsultaRUC.API.csproj"
+    #- name: publish with dotnet
+      #run: dotnet publish "Consulta RUC .NET\ZP.ConsultaRUC.API\ZP.ConsultaRUC.API.csproj"  --configuration Release
+    - name: Copy items into publish folder
+      run : Copy-Item "ConsoleApp2\bin\Debug" C:\Pruebas -Recurse -Force
