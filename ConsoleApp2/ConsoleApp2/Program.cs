@@ -54,6 +54,7 @@ namespace ChatApi
             //Console.WriteLine("Ingrese el nombre del archivo:");
             //string nombreArchivo = Console.ReadLine();
             //https://empresas.blogthinkbig.com/wp-content/uploads/2019/11/Imagen3-245003649.jpg?w=800
+            //https://empresas.blogthinkbig.com/wp-content/uploads/2019/11/Imagen3-245003649.jpg?w=800
 
             JObject jParameters = new JObject
             {
