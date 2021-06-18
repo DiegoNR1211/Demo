@@ -7,37 +7,45 @@ namespace ChatApi
     public class Program
     {
         const string UrlAPI = "https://api.chat-api.com/instance288897/";
+        const string UrlDni = "https://consulta.api-peru.com/api/dni/";
         const string Token = "gatxr0kt1tb3mmhx";
         const string ApiMensaje = "sendMessage";
         const string ApiArchivo = "sendFile";
 
         static void Main(string[] args)
         {
-            EnviarMensaje();
-            //EnviarArchivo();      
+            ConsultaDni();
+            Console.ReadKey();
         }
 
         public static void EnviarMensaje()
         {
-            Console.WriteLine("Ingrese número del destinatario:");
-            string Numero = Console.ReadLine();
-
-            Console.WriteLine("Escriba el mensaje:");
-            string Mensaje = Console.ReadLine();
-
-            JObject jParameters = new JObject
+            try
             {
-                ["phone"] = Numero,
-                ["body"] = Mensaje
-            };
+                Console.WriteLine("Ingrese número del destinatario:");
+                string Numero = Console.ReadLine();
 
-            string Url = UrlAPI + ApiMensaje + "?token=" + Token;
-            JObject jChatApiResult = APIClient.Request(Url, APIClient.ContentType.JSON, null, jParameters, APIClient.RequestTypeHttp.POST);
+                Console.WriteLine("Escriba el mensaje:");
+                string Mensaje = Console.ReadLine();
 
-            if ((bool)jChatApiResult["sent"])
-                Console.WriteLine("Mensaje envíado correctamente");
-            else
-                Console.WriteLine("Ocurrió un error al enviar mensaje: " + jChatApiResult["message"]);
+                JObject jParameters = new JObject
+                {
+                    ["phone"] = Numero,
+                    ["body"] = Mensaje
+                };
+
+                string Url = UrlAPI + ApiMensaje + "?token=" + Token;
+                JObject jChatApiResult = APIClient.Request(Url, APIClient.ContentType.JSON, null, jParameters, APIClient.RequestTypeHttp.POST);
+
+                if ((bool)jChatApiResult["sent"])
+                    Console.WriteLine("Mensaje envíado correctamente");
+                else
+                    Console.WriteLine("Ocurrió un error al enviar mensaje: " + jChatApiResult["message"]);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         public static void EnviarArchivo()
@@ -69,6 +77,26 @@ namespace ChatApi
 
             if ((bool)jChatApiResult["sent"])
                 Console.WriteLine("Mensaje envíado correctamente");
+            else
+                Console.WriteLine("Ocurrió un error al enviar mensaje: " + jChatApiResult["message"]);
+        }
+
+        public static void ConsultaDni()
+        {
+            Console.WriteLine("Api DNI");
+            Console.WriteLine("Ingrese el dni:");
+            string dni = Console.ReadLine();
+
+            string Url = UrlDni + dni;
+            JObject jChatApiResult = APIClient.Request(Url, APIClient.ContentType.JSON, null, null, APIClient.RequestTypeHttp.GET);
+
+            if ((bool)jChatApiResult["success"])
+            {
+                Console.WriteLine(jChatApiResult["data"]);
+                Console.WriteLine("***************************");
+                Console.WriteLine("API MENSAJE WHATSAPP");
+                EnviarMensaje();
+            }
             else
                 Console.WriteLine("Ocurrió un error al enviar mensaje: " + jChatApiResult["message"]);
         }
